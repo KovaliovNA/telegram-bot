@@ -1,0 +1,24 @@
+server:
+  port: ${BOT_PORT:8093}
+
+logging:
+  config: config/logback.groovy
+
+spring:
+  data:
+    mongodb:
+      database: ${DB_NAME:local_mongo_db}
+      host: ${DB_HOST:localhost}
+      port: ${DB_PORT:27017}
+      username: ${DB_USER}
+      password: ${DB_PASS}
+
+bot:
+  name: ${BOT_NAME}
+  token: ${BOT_TOKEN}
+  proxy:
+    enable: ${BOT_PROXY_ENABLE:false}
+    host: ${BOT_PROXY_HOST}
+    port: ${BOT_PROXY_PORT}
+    user: ${BOT_PROXY_USER}
+    pass: ${BOT_PROXY_PASS}

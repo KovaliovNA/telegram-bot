@@ -1,0 +1,13 @@
+descriptions:
+  - button: "Intermediate results"
+    desc: "Enable/disable intermediate results - true/false respectively"
+  - button: "Gaussian radius"
+    desc: "Radius of the Gaussian filter (filter width = 2 * r + 1) - int type."
+  - button: "Gaussian intensity"
+    desc: "The intensity of the Gaussian blur - double type with delimiter - dot."
+  - button: "Low threshold"
+    desc: "Low threshold - double type with delimiter - dot."
+  - button: "High threshold"
+    desc: "High threshold - double type with delimiter - dot."
+  - button: "Exit"
+    desc: ""

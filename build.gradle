@@ -1,0 +1,60 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'idea'
+}
+
+group = 'telegram.bot'
+version = '1.0-SNAPSHOT'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb'
+
+    compile group: 'org.telegram', name: 'telegrambots', version: '4.4.0.1'
+    compile group: 'org.telegram', name: 'telegrambotsextensions', version: '4.4.0.1'
+    compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.4.0.1'
+    compile group: 'org.telegram', name: 'telegrambots-meta', version: '4.4.0.1'
+
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.0-alpha-4'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.23'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+}
+
+task zip(dependsOn: jar, type: Zip) {
+    from jar
+
+    from('bin/') {
+        include 'start.sh', 'stop.sh', 'var.env'
+        into 'bin/'
+    }
+
+    from('bin/') {
+        include 'init.sh', 'restart.sh'
+        into '/'
+    }
+
+    from('config/') {
+        into 'config/'
+    }
+
+    archiveName  project.name + '-' + project.version + '.zip'
+    println "zip was created"
+}
