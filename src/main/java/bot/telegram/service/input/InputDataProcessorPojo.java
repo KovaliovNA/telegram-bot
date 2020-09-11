@@ -7,6 +7,6 @@ import lombok.Getter;
 @Builder
 public class InputDataProcessorPojo {
 
-    private String command;
-    private InputDataProcessorService service;
+    private final String command;
+    private final InputDataProcessorService service;
 }

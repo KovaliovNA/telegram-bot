@@ -1,6 +1,7 @@
 package bot.telegram.util;
 
 import bot.telegram.service.initialization.validator.Keyboard;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
@@ -11,9 +12,10 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
+@UtilityClass
 public class MessageUtil {
 
-    public static void sendSimpleMessage(String text, AbsSender sender, Long chatId) {
+    public void sendSimpleMessage(String text, AbsSender sender, Long chatId) {
         try {
             sender.execute(new SendMessage()
                     .setChatId(chatId)
@@ -24,7 +26,7 @@ public class MessageUtil {
         }
     }
 
-    public static void sendKeyboard(InlineKeyboardMarkup keyboardMarkup, String text, AbsSender sender, Long chatId) {
+    public void sendKeyboard(InlineKeyboardMarkup keyboardMarkup, String text, AbsSender sender, Long chatId) {
         try {
             sender.execute(new SendMessage()
                     .setChatId(chatId)
@@ -35,7 +37,7 @@ public class MessageUtil {
         }
     }
 
-    public static void editKeyboard(AbsSender sender, Keyboard keyboard) {
+    public void editKeyboard(AbsSender sender, Keyboard keyboard) {
         CallbackQuery callbackQuery = keyboard.getCallbackQuery();
         Integer messageId = callbackQuery.getMessage().getMessageId();
         Long chatId = callbackQuery.getMessage().getChatId();

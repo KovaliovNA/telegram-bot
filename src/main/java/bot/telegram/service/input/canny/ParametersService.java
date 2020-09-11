@@ -1,21 +1,24 @@
 package bot.telegram.service.input.canny;
 
+import static bot.telegram.controller.canny.CannyFilterController.PARAMETERS_TEXT;
+import static bot.telegram.controller.canny.CannyFilterParameter.CANNY_HIGH_THRESHOLD;
+import static bot.telegram.controller.canny.CannyFilterParameter.CANNY_LOW_THRESHOLD;
+import static bot.telegram.controller.canny.CannyFilterParameter.CANNY_PARAMS_KB;
+import static bot.telegram.controller.canny.CannyFilterParameter.GAUSSIAN_INTENSITY;
+import static bot.telegram.controller.canny.CannyFilterParameter.GAUSSIAN_RADIUS;
+import static bot.telegram.controller.canny.CannyFilterParameter.INTERMEDIATE_RESULTS;
+
 import bot.telegram.service.initialization.keyboard.BotKeyboardsContainer;
 import bot.telegram.service.input.InputDataProcessorService;
 import bot.telegram.service.input.canny.algorithm.Parameters;
+import bot.telegram.util.MessageUtil;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-
-import java.util.Map;
-
-import static bot.telegram.controller.canny.CannyFilterController.PARAMETERS_TEXT;
-import static bot.telegram.controller.canny.CannyFilterParameter.*;
-import static bot.telegram.util.MessageUtil.sendKeyboard;
-import static bot.telegram.util.MessageUtil.sendSimpleMessage;
 
 @Slf4j
 @Service
@@ -58,9 +61,9 @@ public class ParametersService implements InputDataProcessorService {
 
             InlineKeyboardMarkup paramsKeyboard = botKeyboardsContainer.getKeyboardByName(CANNY_PARAMS_KB);
             String text = String.format(PARAMETERS_TEXT, parameters.toString());
-            sendKeyboard(paramsKeyboard, text, sender, chatId);
+            MessageUtil.sendKeyboard(paramsKeyboard, text, sender, chatId);
         } catch (NumberFormatException e) {
-            sendSimpleMessage("Invalid input for command: " + command, sender, chatId);
+            MessageUtil.sendSimpleMessage("Invalid input for command: " + command, sender, chatId);
         }
     }
 }

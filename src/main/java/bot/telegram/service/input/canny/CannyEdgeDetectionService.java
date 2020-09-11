@@ -1,9 +1,22 @@
 package bot.telegram.service.input.canny;
 
+import static bot.telegram.controller.canny.CannyFilterController.CANNY_FILTER_KEYBOARD_MESSAGE;
+import static bot.telegram.controller.canny.CannyFilterController.CANNY_MAIN_KB;
+
 import bot.telegram.service.initialization.keyboard.BotKeyboardsContainer;
 import bot.telegram.service.input.InputDataProcessorService;
 import bot.telegram.service.input.canny.algorithm.CannyEdgeDetector;
 import bot.telegram.service.input.canny.algorithm.Parameters;
+import bot.telegram.util.MessageUtil;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,21 +31,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static bot.telegram.controller.canny.CannyFilterController.CANNY_FILTER_KEYBOARD_MESSAGE;
-import static bot.telegram.controller.canny.CannyFilterController.CANNY_MAIN_KB;
-import static bot.telegram.util.MessageUtil.sendKeyboard;
-import static bot.telegram.util.MessageUtil.sendSimpleMessage;
 
 @Slf4j
 @Service
@@ -53,7 +51,7 @@ public class CannyEdgeDetectionService implements InputDataProcessorService {
         Long chatId = message.getChatId();
 
         if (CollectionUtils.isEmpty(photos)) {
-            sendSimpleMessage("Please send a photo!", sender, chatId);
+            MessageUtil.sendSimpleMessage("Please send a photo!", sender, chatId);
         }
 
         PhotoSize photo = photos.get(photos.size() - 1);
@@ -83,12 +81,12 @@ public class CannyEdgeDetectionService implements InputDataProcessorService {
 
             sender.execute(mediaGroup);
             String text = "Image was processed with next parameters " + parameters.toString();
-            sendSimpleMessage(text, sender, chatId);
-            sendKeyboard(botKeyboardsContainer.getKeyboardByName(CANNY_MAIN_KB), CANNY_FILTER_KEYBOARD_MESSAGE,
+            MessageUtil.sendSimpleMessage(text, sender, chatId);
+            MessageUtil.sendKeyboard(botKeyboardsContainer.getKeyboardByName(CANNY_MAIN_KB), CANNY_FILTER_KEYBOARD_MESSAGE,
                     sender, chatId);
         } catch (Exception e) {
             log.error("Processing image error!", e);
-            sendSimpleMessage("Processing image error!", sender, chatId);
+            MessageUtil.sendSimpleMessage("Processing image error!", sender, chatId);
         }
     }
 

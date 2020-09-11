@@ -9,8 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 @Getter
 @Builder
 public final class Keyboard {
-    private CallbackQuery callbackQuery;
-    private String text;
+    private final CallbackQuery callbackQuery;
+    private final String text;
     @NonNull
-    private InlineKeyboardMarkup keyboard;
+    private final InlineKeyboardMarkup keyboard;
 }

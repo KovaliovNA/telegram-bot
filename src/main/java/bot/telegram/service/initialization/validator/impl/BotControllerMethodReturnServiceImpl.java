@@ -2,13 +2,11 @@ package bot.telegram.service.initialization.validator.impl;
 
 import bot.telegram.service.initialization.validator.BotControllerMethodReturnService;
 import bot.telegram.service.initialization.validator.Keyboard;
+import bot.telegram.util.MessageUtil;
+import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-
-import java.lang.reflect.Method;
-
-import static bot.telegram.util.MessageUtil.*;
 
 @Slf4j
 @Service
@@ -20,16 +18,16 @@ public class BotControllerMethodReturnServiceImpl implements BotControllerMethod
         }
 
         if (result instanceof String) {
-            sendSimpleMessage(String.valueOf(result), sender, chatId);
+            MessageUtil.sendSimpleMessage(String.valueOf(result), sender, chatId);
         }
 
         if (result instanceof Keyboard) {
             Keyboard keyboard = (Keyboard) result;
 
             if (keyboard.getCallbackQuery() == null) {
-                sendKeyboard(keyboard.getKeyboard(), keyboard.getText(), sender, chatId);
+                MessageUtil.sendKeyboard(keyboard.getKeyboard(), keyboard.getText(), sender, chatId);
             } else {
-                editKeyboard(sender, keyboard);
+                MessageUtil.editKeyboard(sender, keyboard);
             }
         }
     }

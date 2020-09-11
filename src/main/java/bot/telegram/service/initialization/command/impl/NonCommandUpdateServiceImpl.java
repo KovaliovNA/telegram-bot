@@ -4,6 +4,8 @@ import bot.telegram.service.initialization.BotKeyboardButton;
 import bot.telegram.service.initialization.command.NonCommandUpdateService;
 import bot.telegram.service.initialization.keyboard.BotKeyboardsContainer;
 import bot.telegram.service.input.InputDataProcessorPojo;
+import bot.telegram.util.MessageUtil;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-
-import java.util.Map;
-
-import static bot.telegram.util.MessageUtil.sendSimpleMessage;
 
 @Slf4j
 @Service
@@ -78,11 +76,11 @@ public class NonCommandUpdateServiceImpl implements NonCommandUpdateService {
         Long chatId = getChatId(update);
 
         if (update.getMessage() != null) {
-            sendSimpleMessage("I don`t know what to do... Please type /help!", sender, chatId);
+            MessageUtil.sendSimpleMessage("I don`t know what to do... Please type /help!", sender, chatId);
         }
 
         if (update.getCallbackQuery() != null) {
-            sendSimpleMessage("Command for this menu was interrupted!", sender, chatId);
+            MessageUtil.sendSimpleMessage("Command for this menu was interrupted!", sender, chatId);
         }
     }
 }
